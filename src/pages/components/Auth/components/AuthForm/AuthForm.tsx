@@ -1,6 +1,10 @@
+import { validateCredentials } from 'api';
 import { TextField } from 'components';
+import { useAsyncCallback } from 'hooks';
 import React from 'react';
 import { Field, Form } from 'react-final-form';
+import LocalStorage from 'services/LocalStorage';
+import { AwsCredentials } from 'types';
 import { Button } from 'UI';
 import { isRequired } from 'utils';
 import styles from './AuthForm.module.scss';
@@ -13,12 +17,29 @@ type FormValues = {
 
 function AuthForm() {
   const handleSubmit = async (values: FormValues) => {
-    console.log(values);
+    const credentials: AwsCredentials = {
+      AwsSecret: values.secret,
+      AwsAccess: values.access,
+      AwsRegion: values.region,
+    };
+
+    const { data: isValid } = await validateCredentials(credentials);
+
+    if (isValid) {
+      Object.keys(credentials).forEach((key) => {
+        LocalStorage.setItem(key, credentials[key]);
+      });
+      return undefined;
+    }
+
+    alert('Wrong credentials');
   };
+
+  const [asyncSubmit, isLoading] = useAsyncCallback(handleSubmit);
 
   return (
     <Form<FormValues>
-      onSubmit={handleSubmit}
+      onSubmit={asyncSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit} className={styles.form}>
           <Field
@@ -39,7 +60,9 @@ function AuthForm() {
             validate={isRequired()}
             component={TextField}
           />
-          <Button type="submit">Log in</Button>
+          <Button type="submit" disabled={isLoading}>
+            Log in
+          </Button>
         </form>
       )}
     />
