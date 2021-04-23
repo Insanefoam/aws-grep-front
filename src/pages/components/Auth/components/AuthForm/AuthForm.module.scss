@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 16px rgba(24, 32, 38, 0.02),
+    0px 20px 90px rgba(24, 32, 38, 0.06);
+
+  border: 1px solid #f0f0f0;
+  box-sizing: border-box;
+  border-radius: 32px;
+
+  width: 500px;
+
+  padding: 32px;
+}

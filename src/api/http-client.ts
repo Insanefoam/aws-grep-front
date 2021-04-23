@@ -3,7 +3,13 @@ import axios, {
   AxiosError,
   AxiosRequestConfig,
 } from 'axios';
+import {
+  AWS_HEADER_ACCESS,
+  AWS_HEADER_REGION,
+  AWS_HEADER_SECRET,
+} from '_constants';
 import { BASE_URL } from 'config';
+import LocalStorage from 'services/LocalStorage';
 
 export type CancelToken = AxiosCancelToken;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +36,17 @@ httpClient.interceptors.response.use(
     throw error;
   }
 );
+
+httpClient.interceptors.request.use((config: AxiosRequestConfig) => {
+  const credentials = [AWS_HEADER_ACCESS, AWS_HEADER_SECRET, AWS_HEADER_REGION];
+
+  credentials.forEach((cred) => {
+    const value = LocalStorage.getItem(cred);
+    config.headers[cred] = config.headers[cred] || value;
+  });
+
+  return config;
+});
 
 export const createSourceCancelToken = () => {
   return axios.CancelToken.source();
