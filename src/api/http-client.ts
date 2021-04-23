@@ -7,7 +7,7 @@ import {
   AWS_HEADER_ACCESS,
   AWS_HEADER_REGION,
   AWS_HEADER_SECRET,
-} from 'common/constants';
+} from '_constants';
 import { BASE_URL } from 'config';
 import LocalStorage from 'services/LocalStorage';
 
