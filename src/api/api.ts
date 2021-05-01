@@ -1,8 +1,8 @@
-import { AwsCredentials } from 'types';
+import { AwsCredentials, SearchItemDto } from 'types';
 import httpClient from './http-client';
 
 export const getAllBuckets = () => {
-  return httpClient.get('storage/buckets');
+  return httpClient.get<string[]>('storage/buckets');
 };
 
 export const getAllBucketObjects = (bucket: string) => {
@@ -18,7 +18,7 @@ export const indexBucketObjects = (bucket: string) => {
 };
 
 export const searchInIndex = (search: string) => {
-  return httpClient.get(`elastic-search/search/${search}`);
+  return httpClient.get<SearchItemDto[]>(`elastic-search/search/${search}`);
 };
 
 export const validateCredentials = (credentials: AwsCredentials) => {

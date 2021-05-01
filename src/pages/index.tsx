@@ -1,10 +1,16 @@
+import { SpinnerContainer } from 'components';
 import { useAuthenticated } from 'hooks';
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Spinner } from 'UI';
 import { Auth, Home } from './components';
 
 function AppRouter() {
-  const isAuthenticated = useAuthenticated();
+  const [isAuthenticated, isLoading] = useAuthenticated();
+
+  if (isLoading) {
+    return <SpinnerContainer />;
+  }
 
   return (
     <BrowserRouter>
