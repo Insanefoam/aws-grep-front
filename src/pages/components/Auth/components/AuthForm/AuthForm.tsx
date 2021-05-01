@@ -30,9 +30,7 @@ function AuthForm() {
     const { data: isValid } = await validateCredentials(credentials);
 
     if (isValid) {
-      Object.keys(credentials).forEach((key) => {
-        LocalStorage.setItem(key, credentials[key]);
-      });
+      LocalStorage.setCredentials(credentials);
       history.push(ROUTE_PATH.home);
       return undefined;
     }

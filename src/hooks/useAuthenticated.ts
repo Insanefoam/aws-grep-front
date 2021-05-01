@@ -4,6 +4,7 @@ import LocalStorage from 'services/LocalStorage';
 import { AwsCredentials } from 'types';
 
 export const useAuthenticated = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const credentials = useMemo(() => {
@@ -16,12 +17,19 @@ export const useAuthenticated = () => {
 
   useEffect(() => {
     const validate = async () => {
-      const { data } = await validateCredentials(credentials);
-      setIsAuthenticated(data);
+      try {
+        setIsLoading(true);
+        const { data } = await validateCredentials(credentials);
+        setIsAuthenticated(data);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     validate();
   }, [credentials]);
 
-  return isAuthenticated;
+  return [isAuthenticated, isLoading];
 };

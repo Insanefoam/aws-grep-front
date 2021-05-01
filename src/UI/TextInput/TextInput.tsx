@@ -1,9 +1,9 @@
-import React, { HTMLProps } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import styles from './TextInput.module.scss';
 import fonts from 'styles/fonts.module.scss';
 import cx from 'classnames';
 
-type Props = HTMLProps<HTMLInputElement> & {
+type Props = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;
 };
