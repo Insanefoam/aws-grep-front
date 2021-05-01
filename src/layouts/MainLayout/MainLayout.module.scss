@@ -1,0 +1,25 @@
+.container {
+  padding: 24px;
+
+  & > h1 {
+    margin-bottom: 24px;
+  }
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 200px 100px;
+  column-gap: 20px;
+  align-items: center;
+
+  margin-bottom: 24px;
+}
+
+.syncContainer {
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

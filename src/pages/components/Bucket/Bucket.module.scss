@@ -1,0 +1,30 @@
+.objectsContainer {
+  margin-top: 24px;
+
+  & > h2 {
+    margin-bottom: 8px;
+  }
+}
+
+.object {
+  &Container {
+    cursor: pointer;
+
+    padding: 16px;
+    border: 1px solid #e4e8ea;
+    border-radius: 12px;
+
+    margin-bottom: 24px;
+
+    &:hover {
+      opacity: 0.4;
+    }
+
+    transition: opacity 0.1s;
+  }
+
+  &Name {
+    margin-bottom: 8px;
+    color: #ff7944;
+  }
+}
