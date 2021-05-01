@@ -38,6 +38,11 @@ function Home() {
     }
   }, [searchValue]);
 
+  const handleRedirect = (event: React.MouseEvent, route: string) => {
+    event.preventDefault();
+    history.push(route);
+  };
+
   const renderContent = () => {
     if (isLoading) {
       return <SpinnerContainer />;
@@ -67,11 +72,26 @@ function Home() {
         >
           <h1>
             Bucket:&nbsp;
-            <a href={ROUTE_PATH.bucket(result.object)}>{result.bucket}</a>
+            <a
+              href={ROUTE_PATH.bucket(result.bucket)}
+              onClick={(e) =>
+                handleRedirect(e, ROUTE_PATH.bucket(result.bucket))
+              }
+            >
+              {result.bucket}
+            </a>
           </h1>
           <h2>
             Object:&nbsp;
-            <a href={ROUTE_PATH.object(result.bucket, result.object)}>
+            <a
+              href={ROUTE_PATH.object(result.bucket, result.object)}
+              onClick={(e) =>
+                handleRedirect(
+                  e,
+                  ROUTE_PATH.object(result.bucket, result.object)
+                )
+              }
+            >
               {result.object}
             </a>
           </h2>

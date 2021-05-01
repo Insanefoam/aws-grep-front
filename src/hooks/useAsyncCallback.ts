@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export function useAsyncCallback<T>(
-  callback?: (val: T) => void
+  callback?: Function
 ): [asyncSubmit: (val: T) => void, submitState: boolean] {
   const [isLoading, setIsLoading] = useState(false);
 
