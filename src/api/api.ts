@@ -1,4 +1,4 @@
-import { AwsCredentials, SearchItemDto } from 'types';
+import { AwsCredentials, AwsObjectDto, SearchItemDto } from 'types';
 import httpClient from './http-client';
 
 export const getAllBuckets = () => {
@@ -6,11 +6,13 @@ export const getAllBuckets = () => {
 };
 
 export const getAllBucketObjects = (bucket: string) => {
-  return httpClient.get(`storage/buckets/${bucket}/objects`);
+  return httpClient.get<AwsObjectDto[]>(`storage/buckets/${bucket}/objects`);
 };
 
 export const getObject = (bucket: string, objectKey: string) => {
-  return httpClient.get(`storage/buckets/${bucket}/objects/${objectKey}`);
+  return httpClient.get<AwsObjectDto>(
+    `storage/buckets/${bucket}/objects/${objectKey}`
+  );
 };
 
 export const indexBucketObjects = (bucket: string) => {

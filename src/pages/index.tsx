@@ -2,8 +2,7 @@ import { SpinnerContainer } from 'components';
 import { useAuthenticated } from 'hooks';
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import { Spinner } from 'UI';
-import { Auth, Bucket, Home } from './components';
+import { Auth, Bucket, Home, ObjectPage } from './components';
 
 function AppRouter() {
   const [isAuthenticated, isLoading] = useAuthenticated();
@@ -18,7 +17,12 @@ function AppRouter() {
         {isAuthenticated ? (
           <React.Fragment>
             <Route path="/home" component={Home} />
-            <Route path="/bucket/:name" component={Bucket} />
+            <Route
+              path="/bucket/:name/object/:objectName"
+              exact
+              component={ObjectPage}
+            />
+            <Route path="/bucket/:name" exact component={Bucket} />
             <Redirect from="/" to="/home" />
           </React.Fragment>
         ) : (
