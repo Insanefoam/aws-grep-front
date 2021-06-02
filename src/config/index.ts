@@ -2,4 +2,9 @@ import { config } from 'dotenv';
 
 config();
 
-export const { REACT_APP_BACKEND_URL: BASE_URL } = process.env;
+export const {
+  REACT_APP_BACKEND_URL: BASE_URL,
+  REACT_APP_AWS_SECRET_TEST: AWS_SECRET_TEST,
+  REACT_APP_AWS_ACCESS_TEST: AWS_ACCESS_TEST,
+  REACT_APP_AWS_REGION_TEST: AWS_REGION_TEST,
+} = process.env;

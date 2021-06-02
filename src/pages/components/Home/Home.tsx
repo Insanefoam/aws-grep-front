@@ -10,8 +10,11 @@ import { useHistory } from 'react-router';
 import { ROUTE_PATH } from '_constants';
 import debounce from 'debounce';
 import { MainLayout } from 'layouts';
+import { useLocalAuth } from 'hooks';
 
 function Home() {
+  const [isAuthenticated, isAuthLoading] = useLocalAuth();
+
   const history = useHistory();
 
   const [searchValue, setSearchValue] = useState('');

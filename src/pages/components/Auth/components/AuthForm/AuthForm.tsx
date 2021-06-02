@@ -1,8 +1,8 @@
 import { validateCredentials } from 'api';
-import { TextField } from 'components';
+import { SpinnerContainer, TextField } from 'components';
 import { ROUTE_PATH } from '_constants';
 import { useAsyncCallback } from 'hooks';
-import React from 'react';
+import React, { useState } from 'react';
 import { Field, Form } from 'react-final-form';
 import { useHistory } from 'react-router';
 import LocalStorage from 'services/LocalStorage';
@@ -10,6 +10,7 @@ import { AwsCredentials } from 'types';
 import { Button } from 'UI';
 import { isRequired } from 'utils';
 import styles from './AuthForm.module.scss';
+import { AWS_ACCESS_TEST, AWS_SECRET_TEST, AWS_REGION_TEST } from 'config';
 
 type FormValues = {
   secret: string;
@@ -19,30 +20,45 @@ type FormValues = {
 
 function AuthForm() {
   const history = useHistory();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (values: FormValues) => {
-    const credentials: AwsCredentials = {
-      awssecret: values.secret,
-      awsaccess: values.access,
-      awsregion: values.region,
-    };
+    try {
+      setIsLoading(true);
+      const credentials: AwsCredentials = {
+        awssecret: values.secret,
+        awsaccess: values.access,
+        awsregion: values.region,
+      };
 
-    const { data: isValid } = await validateCredentials(credentials);
+      const { data: isValid } = await validateCredentials(credentials);
 
-    if (isValid) {
-      LocalStorage.setCredentials(credentials);
-      history.push(ROUTE_PATH.home);
-      return undefined;
+      if (isValid) {
+        LocalStorage.setCredentials(credentials);
+        history.push(ROUTE_PATH.home);
+        return undefined;
+      }
+    } catch (e) {
+      setIsLoading(false);
+      alert('Wrong credentials');
     }
-
-    alert('Wrong credentials');
   };
 
-  const [asyncSubmit, isLoading] = useAsyncCallback(handleSubmit);
+  const handleTestLogIn = () => {
+    handleSubmit({
+      secret: AWS_SECRET_TEST || '',
+      access: AWS_ACCESS_TEST || '',
+      region: AWS_REGION_TEST || '',
+    });
+  };
+
+  if (isLoading) {
+    return <SpinnerContainer />;
+  }
 
   return (
     <Form<FormValues>
-      onSubmit={asyncSubmit}
+      onSubmit={handleSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit} className={styles.form}>
           <Field
@@ -65,6 +81,13 @@ function AuthForm() {
           />
           <Button type="submit" disabled={isLoading}>
             Log in
+          </Button>
+          <Button
+            type="button"
+            onClick={() => handleTestLogIn()}
+            disabled={isLoading}
+          >
+            Test mode 🕵🏻‍♂️
           </Button>
         </form>
       )}

@@ -1,0 +1,8 @@
+authtoken: 1rnDqVVZXpzTb2l2dfKwYpJolsP_6yENcNqZ9yduw9BTCdBjM
+tunnels:
+  first:
+    addr: 3000
+    proto: http
+  second:
+    addr: 3001
+    proto: http

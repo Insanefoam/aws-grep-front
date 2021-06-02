@@ -1,14 +1,32 @@
 .formContainer {
-  display: grid;
-  grid-template-columns: auto 120px;
-  align-items: center;
+  display: flex;
 
-  & > div:first-child {
-    margin-bottom: 0;
-    margin-right: 16px;
+  & > div {
+    width: 100%;
   }
 
-  margin-bottom: 24px;
+  & button {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: auto 120px;
+    align-items: center;
+
+    margin-bottom: 24px;
+
+    & > div:first-child {
+      width: auto;
+
+      margin-bottom: 0;
+      margin-right: 16px;
+    }
+
+    & button {
+      display: block;
+    }
+  }
 }
 
 .suggestionsContainer {

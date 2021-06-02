@@ -10,7 +10,12 @@
   box-sizing: border-box;
   border-radius: 32px;
 
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
 
   padding: 32px;
+
+  & button:not(:last-child) {
+    margin-bottom: 16px;
+  }
 }

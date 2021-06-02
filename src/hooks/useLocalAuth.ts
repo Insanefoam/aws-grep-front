@@ -1,11 +1,14 @@
 import { validateCredentials } from 'api';
 import { useEffect, useMemo, useState } from 'react';
+import { useHistory } from 'react-router';
 import LocalStorage from 'services/LocalStorage';
 import { AwsCredentials } from 'types';
+import { ROUTE_PATH } from '_constants';
 
-export const useAuthenticated = () => {
-  const [isLoading, setIsLoading] = useState(false);
+export const useLocalAuth = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const history = useHistory();
 
   const credentials = useMemo(() => {
     return {
@@ -17,7 +20,6 @@ export const useAuthenticated = () => {
 
   const validate = async () => {
     try {
-      setIsLoading(true);
       const { data } = await validateCredentials(credentials);
       setIsAuthenticated(data);
     } catch (e) {
@@ -31,5 +33,9 @@ export const useAuthenticated = () => {
     validate();
   }, [credentials]);
 
-  return [isAuthenticated, isLoading];
+  if (!isLoading && !isAuthenticated) {
+    history.push(ROUTE_PATH.auth);
+  }
+
+  return [isAuthenticated, isLoading] as const;
 };
